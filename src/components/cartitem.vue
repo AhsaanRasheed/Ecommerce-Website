@@ -1,0 +1,105 @@
+<template>
+    <li>
+      <div>
+        <img :src="image" :alt="title" />
+      </div>
+      <div>
+        <h3>{{ title }}</h3>
+        <div class="item__data">
+          <div style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;">
+
+            <div>
+              Order No:
+              <strong>785641</strong>
+            </div>
+            <div>
+              Date:
+              <strong>{{new Date().toJSON().slice(0,10)}}</strong>
+            </div>
+
+          </div>
+          <div>
+            Price per Item:
+            <strong>${{ price }}</strong>
+          </div>
+          <div>
+            Quantity:
+            <strong>{{ qty }}</strong>
+          </div>
+          <div>
+            Color:
+            <strong>{{ color }}</strong>
+          </div>
+        </div>
+        <div class="item__total">Total: ${{ itemTotal }}</div>
+      </div>
+    </li>
+  </template>
+  
+  <script>
+  export default {
+    props: ['prodId', 'title', 'image', 'price', 'color', 'qty'],
+    computed: {
+      itemTotal() {
+        return (this.price * this.qty).toFixed(2);
+      },
+    },
+    methods: {
+      remove() {
+        this.$store.commit('removeProductFromCart', this.prodId)
+      }
+    }
+  };
+  </script>
+  
+  <style scoped>
+  li {
+    margin: 1rem auto;
+    padding: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    text-align: center;
+    max-width: 25rem;
+  }
+  
+  img {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .item__data {
+    display: flex;
+    flex-direction: column;
+    justify-content:left;
+    align-items: flex-start;
+    padding-top: 35px;
+
+
+  }
+  
+  .item__total {
+    font-weight: bold;
+    margin: 1rem 0;
+    border-top: 1px solid #474747;
+    border-bottom: 2px solid #474747;
+    padding: 0.25rem 0;
+    width: auto;
+  }
+  
+  button {
+    font: inherit;
+    border: 1px solid #48AFFF;
+    background-color: #48AFFF;
+    color: white;
+    border-radius: 30px;
+    cursor: pointer;
+    padding: 0.5rem 1.5rem;
+  }
+  
+  button:hover,
+  button:active {
+    background-color: #0484e6;
+    border-color: #48AFFF;
+  }
+  </style>
